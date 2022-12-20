@@ -1,0 +1,381 @@
+---
+title: "Final Project Part 1"
+author: "Josiah Chung"
+date: "2022-11-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Packages
+
+```{r}
+
+install.packages("stringr")     # Install stringr R package
+library("stringr")     
+
+```
+
+# Reading in the CSV's
+
+```{r}
+
+brooklyn2016 <- read.csv("/Users/josiahchung/Documents/MScA/Q1/Statistical Analysis/Final Project/CSV's/2016_brooklyn.csv")
+brooklyn2016 <- brooklyn2016[-c(1:4),]
+names(brooklyn2016) <- c('borough','neighborhood','bldclasscat','taxclasscurr','block','lot','easement','bldclasscurr','address','aptnum','zip','resunits','comunits','totunits','landsqft','grosssqft','yrbuilt','taxclasssale','bldclasssale','price','date')
+
+brooklyn2017 <- read.csv("/Users/josiahchung/Documents/MScA/Q1/Statistical Analysis/Final Project/CSV's/2017_brooklyn.csv")
+brooklyn2017 <- brooklyn2017[-c(1:4),]
+names(brooklyn2017) <- c('borough','neighborhood','bldclasscat','taxclasscurr','block','lot','easement','bldclasscurr','address','aptnum','zip','resunits','comunits','totunits','landsqft','grosssqft','yrbuilt','taxclasssale','bldclasssale','price','date')
+
+brooklyn2018 <- read.csv("/Users/josiahchung/Documents/MScA/Q1/Statistical Analysis/Final Project/CSV's/2018_brooklyn.csv")
+brooklyn2018 <- brooklyn2018[-c(1:4),]
+names(brooklyn2018) <- c('borough','neighborhood','bldclasscat','taxclasscurr','block','lot','easement','bldclasscurr','address','aptnum','zip','resunits','comunits','totunits','landsqft','grosssqft','yrbuilt','taxclasssale','bldclasssale','price','date')
+
+brooklyn2019 <- read.csv("/Users/josiahchung/Documents/MScA/Q1/Statistical Analysis/Final Project/CSV's/2019_brooklyn.csv")
+brooklyn2019 <- brooklyn2019[-c(1:4),]
+names(brooklyn2019) <- c('borough','neighborhood','bldclasscat','taxclasscurr','block','lot','easement','bldclasscurr','address','aptnum','zip','resunits','comunits','totunits','landsqft','grosssqft','yrbuilt','taxclasssale','bldclasssale','price','date')
+
+brooklyn2020 <- read.csv("/Users/josiahchung/Documents/MScA/Q1/Statistical Analysis/Final Project/CSV's/2020_brooklyn.csv")
+brooklyn2020 <- brooklyn2020[-c(1:7),]
+names(brooklyn2020) <- c('borough','neighborhood','bldclasscat','taxclasscurr','block','lot','easement','bldclasscurr','address','aptnum','zip','resunits','comunits','totunits','landsqft','grosssqft','yrbuilt','taxclasssale','bldclasssale','price','date')
+
+```
+
+# Cleaning 2016
+
+```{r}
+#Replacing dashes with NA or 0 for price
+brooklyn2016$price[brooklyn2016$price == " -   "] <- NA
+
+brooklyn2016$comunits[brooklyn2016$comunits == " -   "] <- NA
+
+brooklyn2016$resunits[brooklyn2016$resunits == " -   "] <- NA
+
+brooklyn2016$totunits[brooklyn2016$totunits == " -   "] <- NA
+
+brooklyn2016$grosssqft[brooklyn2016$grosssqft == " -   "] <- NA
+
+#Changing 0's in yearbuilt to NULL
+brooklyn2016$yrbuilt[brooklyn2016$yrbuilt == "0"] <- NA
+
+#Same with zip
+brooklyn2016$zip[brooklyn2016$zip == "0"] <- NA
+
+#Getting rid of commas and converting to numeric on price
+brooklyn2016$price <- as.numeric(gsub(",","",brooklyn2016$price))
+typeof(brooklyn2016$price)
+
+#Getting rid of commas and converting to numeric on landsqft
+brooklyn2016$landsqft <- as.numeric(gsub(",","",brooklyn2016$landsqft))
+typeof(brooklyn2016$landsqft)
+
+#Getting rid of commas and converting to numeric on grosssqft
+brooklyn2016$grosssqft <- as.numeric(gsub(",","",brooklyn2016$grosssqft))
+typeof(brooklyn2016$grosssqft)
+
+
+#Converting some to numeric
+brooklyn2016$resunits <- as.numeric(brooklyn2016$resunits)
+
+brooklyn2016$comunits <- as.numeric(brooklyn2016$comunits)
+
+brooklyn2016$totunits <- as.numeric(brooklyn2016$totunits)
+
+
+#Fixing Date
+brooklyn2016$date <- as.Date(brooklyn2016$date, format='%m/%d/%Y')
+
+
+#Dealing with white space
+brooklyn2016$bldclasscat <- str_trim(brooklyn2016$bldclasscat)
+brooklyn2016$neighborhood <- str_trim(brooklyn2016$neighborhood)
+brooklyn2016$address <- str_trim(brooklyn2016$address)
+
+
+```
+
+# Cleaning 2017
+
+```{r}
+#Replacing dashes with NA
+
+brooklyn2017$landsqft[brooklyn2017$landsqft == " -   "] <- NA
+
+brooklyn2017$grosssqft[brooklyn2017$grosssqft == " -   "] <- NA
+
+
+#Changing 0's in yearbuilt to NULL
+brooklyn2017$yrbuilt[brooklyn2017$yrbuilt == "0"] <- NA
+
+#Same with zip
+brooklyn2017$zip[brooklyn2017$zip == "0"] <- NA
+
+#Getting rid of commas and converting to numeric on price
+brooklyn2017$price <- as.numeric(gsub(",","",brooklyn2017$price))
+typeof(brooklyn2017$price)
+
+#Getting rid of commas and converting to numeric on landsqft
+brooklyn2017$landsqft <- as.numeric(gsub(",","",brooklyn2017$landsqft))
+typeof(brooklyn2017$landsqft)
+
+#Getting rid of commas and converting to numeric on grosssqft
+brooklyn2017$grosssqft <- as.numeric(gsub(",","",brooklyn2017$grosssqft))
+typeof(brooklyn2017$grosssqft)
+
+
+#Converting some to numeric
+brooklyn2017$resunits <- as.numeric(brooklyn2017$resunits)
+
+brooklyn2017$comunits <- as.numeric(brooklyn2017$comunits)
+
+brooklyn2017$totunits <- as.numeric(brooklyn2017$totunits)
+
+#Fixing Date
+brooklyn2017$date <- as.Date(brooklyn2017$date, format='%m/%d/%y')
+
+#Dealing with white space
+brooklyn2017$bldclasscat <- str_trim(brooklyn2017$bldclasscat)
+brooklyn2017$neighborhood <- str_trim(brooklyn2017$neighborhood)
+brooklyn2017$address <- str_trim(brooklyn2017$address)
+
+```
+
+# Cleaning 2018
+
+```{r}
+
+#Replacing 0's with NA
+brooklyn2018$zip[brooklyn2018$zip == "0"] <- NA
+
+brooklyn2018$yrbuilt[brooklyn2018$yrbuilt == "0"] <- NA
+
+
+#2018 price has dollar signs and commas so gotta remove those
+brooklyn2018$price = as.numeric(gsub("[\\$,]", "", brooklyn2018$price))
+
+
+#Getting rid of commas and converting to numeric on resunits
+brooklyn2018$resunits <- as.numeric(gsub(",","",brooklyn2018$resunits))
+typeof(brooklyn2018$resunits)
+
+#Getting rid of commas and converting to numeric on totunits
+brooklyn2018$totunits <- as.numeric(gsub(",","",brooklyn2018$totunits))
+typeof(brooklyn2018$totunits)
+
+#Getting rid of commas and converting to numeric on landsqft
+brooklyn2018$landsqft <- as.numeric(gsub(",","",brooklyn2018$landsqft))
+typeof(brooklyn2018$landsqft)
+
+#Getting rid of commas and converting to numeric on grosssqft
+brooklyn2018$grosssqft <- as.numeric(gsub(",","",brooklyn2018$grosssqft))
+typeof(brooklyn2018$grosssqft)
+
+#Converting conunits to numeric
+brooklyn2018$comunits <- as.numeric(brooklyn2018$comunits)
+
+#Fixing Date
+brooklyn2018$date <- as.Date(brooklyn2018$date, format='%m/%d/%y')
+
+
+#Dealing with white space
+brooklyn2018$bldclasscat <- str_trim(brooklyn2018$bldclasscat)
+brooklyn2018$neighborhood <- str_trim(brooklyn2018$neighborhood)
+brooklyn2018$address <- str_trim(brooklyn2018$address)
+```
+
+# Cleaning 2019
+
+```{r}
+
+#Getting rid of commas and converting to numeric on price
+brooklyn2019$price <- as.numeric(gsub(",","",brooklyn2019$price))
+typeof(brooklyn2019$price)
+
+brooklyn2019$resunits <- as.numeric(gsub(",","",brooklyn2019$resunits))
+typeof(brooklyn2019$resunits)
+
+brooklyn2019$landsqft <- as.numeric(gsub(",","",brooklyn2019$landsqft))
+typeof(brooklyn2019$landsqft)
+
+brooklyn2019$grosssqft <- as.numeric(gsub(",","",brooklyn2019$grosssqft))
+typeof(brooklyn2019$grosssqft)
+
+brooklyn2019$comunits <- as.numeric(gsub(",","",brooklyn2019$comunits))
+typeof(brooklyn2019$comunits)
+
+brooklyn2019$totunits <- as.numeric(gsub(",","",brooklyn2019$totunits))
+typeof(brooklyn2019$totunits)
+
+#Fixing Date
+brooklyn2019$date <- as.Date(brooklyn2019$date, format='%m/%d/%y')
+
+#Dealing with white space
+brooklyn2019$bldclasscat <- str_trim(brooklyn2019$bldclasscat)
+brooklyn2019$neighborhood <- str_trim(brooklyn2019$neighborhood)
+brooklyn2019$address <- str_trim(brooklyn2019$address)
+
+```
+
+# Cleaning 2020
+
+```{r}
+
+brooklyn2020$price <- as.numeric(gsub(",","",brooklyn2020$price))
+typeof(brooklyn2020$price)
+
+brooklyn2020$landsqft <- as.numeric(gsub(",","",brooklyn2020$landsqft))
+typeof(brooklyn2020$landsqft)
+
+brooklyn2020$grosssqft <- as.numeric(gsub(",","",brooklyn2020$grosssqft))
+typeof(brooklyn2020$grosssqft)
+
+
+#converting some columns to numeric
+brooklyn2020$resunits <- as.numeric(brooklyn2020$resunits)
+
+brooklyn2020$comunits <- as.numeric(brooklyn2020$comunits)
+
+brooklyn2020$totunits <- as.numeric(brooklyn2020$totunits)
+
+#Fixing Date
+brooklyn2020$date <- as.Date(brooklyn2020$date, format='%m/%d/%y')
+
+#Dealing with white space
+brooklyn2020$bldclasscat <- str_trim(brooklyn2020$bldclasscat)
+brooklyn2020$neighborhood <- str_trim(brooklyn2020$neighborhood)
+brooklyn2020$address <- str_trim(brooklyn2020$address)
+
+
+```
+
+# Merging the tables
+
+```{r}
+brooklyn_total <- do.call("rbind", list(brooklyn2016, brooklyn2017, brooklyn2018, brooklyn2019, brooklyn2020))
+
+```
+
+# Adding columns for year of sale and quarter of sale
+
+```{r}
+
+#Creating two new variables: sale_year and sale_quarter
+brooklyn_total$sale_year = format(brooklyn_total$date, "%Y")
+brooklyn_total$sale_quarter = format(brooklyn_total$date, "%m")
+
+brooklyn_total$sale_quarter[brooklyn_total$sale_quarter == "01"] <- "Q1"
+brooklyn_total$sale_quarter[brooklyn_total$sale_quarter == "02"] <- "Q1"
+brooklyn_total$sale_quarter[brooklyn_total$sale_quarter == "03"] <- "Q1"
+brooklyn_total$sale_quarter[brooklyn_total$sale_quarter == "04"] <- "Q2"
+brooklyn_total$sale_quarter[brooklyn_total$sale_quarter == "05"] <- "Q2"
+brooklyn_total$sale_quarter[brooklyn_total$sale_quarter == "06"] <- "Q2"
+brooklyn_total$sale_quarter[brooklyn_total$sale_quarter == "07"] <- "Q3"
+brooklyn_total$sale_quarter[brooklyn_total$sale_quarter == "08"] <- "Q3"
+brooklyn_total$sale_quarter[brooklyn_total$sale_quarter == "09"] <- "Q3"
+brooklyn_total$sale_quarter[brooklyn_total$sale_quarter == "10"] <- "Q4"
+brooklyn_total$sale_quarter[brooklyn_total$sale_quarter == "11"] <- "Q4"
+brooklyn_total$sale_quarter[brooklyn_total$sale_quarter == "12"] <- "Q4"
+
+
+
+
+```
+
+# Filtering final data set
+
+```{r}
+
+#trimming white space off of bldclasssale
+brooklyn_total$bldclasssale <- str_trim(brooklyn_total$bldclasssale)
+
+#Keeping only A and R class buildings from bldclasssale
+keep_filter <- c("A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "RA", "RB", "RG", "RH", "RK", "RP", "RR", "RS", "RT", "RW", "R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "RR", "R0")
+
+brooklyn_final <- brooklyn_total[brooklyn_total$bldclasssale %in% keep_filter, ]
+
+# Getting rid of NA's from the price column
+brooklyn_final$price[is.na(brooklyn_final$price) | brooklyn_final$price=="Inf"] = NA
+
+# Additional filters
+brooklyn_final <- subset(brooklyn_final, grosssqft > 0
+                         & resunits == 1 
+                         & totunits == 1 
+                         & !is.na(price))
+
+#converting year built to numeric
+brooklyn_final$yrbuilt <- as.numeric(brooklyn_final$yrbuilt)
+
+#converting tax class at sale to numeric
+brooklyn_final$taxclasssale <- as.numeric(brooklyn_final$taxclasssale)
+
+#merging some zip codes
+#I wanted to reduce my degrees of freedom, so I looked at the summary of model with un-merged zip codes and merged some zip codes that had both similar intercepts and p-values
+
+brooklyn_final$zip[brooklyn_final$zip == "11203"] <- "11203, 11207, 11224"
+brooklyn_final$zip[brooklyn_final$zip == "11207"] <- "11203, 11207, 11224"
+brooklyn_final$zip[brooklyn_final$zip == "11224"] <- "11203, 11207, 11224"
+brooklyn_final$zip[brooklyn_final$zip == "11217"] <- "11217, 11220"
+brooklyn_final$zip[brooklyn_final$zip == "11220"] <- "11217, 11220"
+brooklyn_final$zip[brooklyn_final$zip == "11219"] <- "11219, 11235"
+brooklyn_final$zip[brooklyn_final$zip == "11235"] <- "11219, 11235"
+brooklyn_final$zip[brooklyn_final$zip == "11232"] <- "11232, 11230"
+brooklyn_final$zip[brooklyn_final$zip == "11230"] <- "11232, 11230"
+
+
+
+# slightly narrowing the price range; doing this in order to get rid of some of the nonsensical lower than 5,000 while getting rid of extreme outliers at the upper end of the data set too.
+
+
+brooklyn_final <- subset(brooklyn_final, price > 5000)
+brooklyn_final <- subset(brooklyn_final, price < 6000000)
+
+
+```
+
+# Final Model
+
+```{r}
+
+# storing everything into smaller letter variables to make modeling look simpler
+
+a <- brooklyn_final$price
+b <- brooklyn_final$borough
+c <- brooklyn_final$neighborhood
+d <- brooklyn_final$bldclasscat
+e <- brooklyn_final$taxclasscurr # only two tax classes
+f <- brooklyn_final$block # maybe
+g <- brooklyn_final$lot 
+h <- brooklyn_final$easement
+i <- brooklyn_final$bldclasscurr
+j <- brooklyn_final$address # too many DF
+k <- brooklyn_final$aptnum
+l <- brooklyn_final$zip
+m <- brooklyn_final$comunits # not helpful
+n <- brooklyn_final$landsqft
+o <- brooklyn_final$grosssqft
+p <- brooklyn_final$yrbuilt
+q <- brooklyn_final$taxclasssale # maybe
+r <- brooklyn_final$bldclasssale
+s <- brooklyn_final$date
+t <- brooklyn_final$sale_year
+u <- brooklyn_final$sale_quarter
+
+# Decided to use sqrt(grosssqft), zip, sale_year, and sale_quarter and took the sqrt(price)
+
+brooklyn_model <- lm(sqrt(a) ~ sqrt(o) + l + t + u)
+summary(brooklyn_model)
+
+```
+
+# Plotting Model
+
+```{r}
+
+plot(brooklyn_model)
+
+
+```
+
