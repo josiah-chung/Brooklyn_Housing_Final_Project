@@ -1,6 +1,6 @@
 # Brooklyn_Housing_Final_Project
 
-#Do Not Duplicate
+## Do Not Duplicate
 
 In this final project for my Statistical Analysis course at the University of Chicago, I was tasked with developing a model from five CSV files reporting real estate sales in Brooklyn from 2016 to 2020. The goal of this project was to develop a linear regression model for this data that could best predict sale price. The model had to meet the following requirements:
     <= 40 degrees of freedom
